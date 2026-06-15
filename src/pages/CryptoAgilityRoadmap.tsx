@@ -1,11 +1,13 @@
 import { useMemo, useState } from "react";
 import {
   AlertTriangle,
+  Ban,
   CheckCircle2,
   ChevronRight,
   FlaskConical,
   Layers,
   RefreshCw,
+  RotateCcw,
   Search,
   Shield,
 } from "lucide-react";
@@ -130,11 +132,16 @@ interface PhaseTimeline { phase: string; label: string; quarter: string; }
 
 function buildTimeline(wave: Wave): PhaseTimeline[] {
   const offset = wave === "Wave 1" ? 0 : wave === "Wave 2" ? 1 : wave === "Wave 3" ? 2 : 3;
-  const quarters = ["2026 Q3", "2026 Q4", "2027 Q1", "2027 Q2", "2027 Q3", "2027 Q4"];
+  const quarters = [
+    "2026 Q3", "2026 Q4", "2027 Q1", "2027 Q2", "2027 Q3", "2027 Q4",
+    "2028 Q1", "2028 Q2",
+  ];
   return [
-    { phase: "1", label: "盤點確認（CBOM）", quarter: quarters[0 + offset] ?? "待定" },
+    { phase: "1", label: "盤點確認（CBOM）",       quarter: quarters[0 + offset] ?? "待定" },
     { phase: "2", label: "試點替換（Hybrid Mode）", quarter: quarters[1 + offset] ?? "待定" },
-    { phase: "3", label: "全面遷移（PQC Only）", quarter: quarters[2 + offset] ?? "待定" },
+    { phase: "3", label: "全面遷移（PQC Only）",    quarter: quarters[2 + offset] ?? "待定" },
+    { phase: "4", label: "舊算法退場",             quarter: quarters[3 + offset] ?? "2027+" },
+    { phase: "5", label: "持續敏捷維護",           quarter: quarters[4 + offset] ?? "2028+" },
   ];
 }
 
@@ -213,6 +220,45 @@ function buildPhaseDetails(system: System, vendor: Vendor | null, algos: AlgoRep
       prereqs: ["Phase 2 試點完成且穩定", "監理機關確認時程", "合約已包含加密升級條款"],
       done: "系統完全運行於 NIST PQC 標準算法，無傳統量子脆弱算法殘留",
       role: ["架構", "資安", "業務", "採購"],
+    },
+    {
+      phase: "4",
+      label: "舊算法退場（Algorithm Sunset）",
+      icon: Ban,
+      color: "text-purple-700 dark:text-purple-300",
+      bg: "bg-purple-50 dark:bg-purple-950/30",
+      border: "border-purple-200 dark:border-purple-800",
+      tasks: [
+        "正式停用 RSA-2048 / RSA-4096：所有金鑰與憑證完成替換",
+        "停用 ECC / ECDSA / ECDH：ML-KEM / ML-DSA 全面接管",
+        "停用 TLS 1.2：強制使用 TLS 1.3 + PQC cipher suite",
+        "更新採購合約：禁止新採購系統使用傳統算法",
+        "廢止所有傳統算法憑證（包含中介憑證 CA）",
+        "向金管會 / 監理機關提交算法退場完成證明",
+        "NSA CNSA 2.0 對照確認：確認 2030 deadline 達標進度",
+      ],
+      prereqs: ["Phase 3 遷移完成且驗證通過", "所有供應商確認停止提供傳統算法支援", "監理機關退場確認通知"],
+      done: "RSA / ECC / TLS 1.2 完全退場，系統稽核無傳統算法殘留，達 CNSA 2.0 中期要求",
+      role: ["資安", "架構", "採購", "法遵"],
+    },
+    {
+      phase: "5",
+      label: "持續敏捷維護（Crypto-Agility Operations）",
+      icon: RotateCcw,
+      color: "text-slate-700 dark:text-slate-300",
+      bg: "bg-slate-50 dark:bg-slate-950/30",
+      border: "border-slate-200 dark:border-slate-700",
+      tasks: [
+        "建立 CBOM 自動化更新機制（每季或系統變更時觸發）",
+        "追蹤 NIST / ISO / ETSI 後續算法標準更新（如 FIPS 206+）",
+        "定期進行加密敏捷性演練：模擬緊急算法替換流程",
+        "供應商年度 PQC 合規審查：確認持續支援最新 FIPS 版本",
+        "維護「算法壽命追蹤清冊」：預判下一輪潛在脆弱算法",
+        "2030 後目標：任何算法替換可在 90 天內完成（加密敏捷成熟度）",
+      ],
+      prereqs: ["Phase 4 完成", "CBOM 工具整合至 CI/CD 或 GRC 系統", "資安團隊具備 PQC 持續監控能力"],
+      done: "機構具備加密敏捷成熟度：新算法標準發布後可在 90 天內完成評估與計畫，180 天內完成試點",
+      role: ["資安", "架構", "採購"],
     },
   ];
 }
@@ -362,7 +408,7 @@ export function CryptoAgilityRoadmap() {
 
       {/* Phase Details */}
       <div className="space-y-4">
-        <h3 className="font-semibold">三階段詳細計畫</h3>
+        <h3 className="font-semibold">五階段詳細計畫（2026–2030）</h3>
         {phases.map((phase) => {
           const Icon = phase.icon;
           return (

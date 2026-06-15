@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  CalendarClock,
   ClipboardList,
   DatabaseZap,
   FileText,
@@ -22,6 +23,7 @@ export const navigation = [
   { title: "Compliance Lineage", path: "/lineage", icon: GitBranch },
   { title: "Migration Priority", path: "/migration", icon: Layers },
   { title: "Crypto-Agility Roadmap", path: "/crypto-agility", icon: RefreshCw },
+  { title: "Regulatory Timeline", path: "/regulatory", icon: CalendarClock },
   { title: "Evidence Pack", path: "/report", icon: FileText },
   { title: "Settings", path: "/settings", icon: Settings },
 ];
