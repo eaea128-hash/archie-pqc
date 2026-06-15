@@ -4,7 +4,9 @@ import {
   DatabaseZap,
   FileText,
   GitBranch,
+  Layers,
   Lightbulb,
+  RefreshCw,
   Settings,
   ShieldCheck,
   Users
@@ -18,6 +20,8 @@ export const navigation = [
   { title: "Vendor Readiness", path: "/vendors", icon: ShieldCheck },
   { title: "Cross-functional Tasks", path: "/tasks", icon: Users },
   { title: "Compliance Lineage", path: "/lineage", icon: GitBranch },
+  { title: "Migration Priority", path: "/migration", icon: Layers },
+  { title: "Crypto-Agility Roadmap", path: "/crypto-agility", icon: RefreshCw },
   { title: "Evidence Pack", path: "/report", icon: FileText },
   { title: "Settings", path: "/settings", icon: Settings },
 ];

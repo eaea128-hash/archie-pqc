@@ -11,6 +11,8 @@ import { PqcIntake } from "@/pages/PqcIntake";
 import { Settings } from "@/pages/Settings";
 import { VendorReadiness } from "@/pages/VendorReadiness";
 import { ExecutiveStoryboard } from "@/pages/ExecutiveStoryboard";
+import { MigrationPriority } from "@/pages/MigrationPriority";
+import { CryptoAgilityRoadmap } from "@/pages/CryptoAgilityRoadmap";
 import "@/index.css";
 
 const router = createBrowserRouter([
@@ -27,6 +29,8 @@ const router = createBrowserRouter([
       { path: "report", element: <IntakeReport /> },
       { path: "settings", element: <Settings /> },
       { path: "storyboard", element: <ExecutiveStoryboard /> },
+      { path: "migration", element: <MigrationPriority /> },
+      { path: "crypto-agility", element: <CryptoAgilityRoadmap /> },
     ]
   }
 ]);
