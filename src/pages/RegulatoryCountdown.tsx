@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { AlertTriangle, CalendarClock, CheckCircle2, Clock, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -155,19 +155,28 @@ function deriveStatus(reg: Regulation): StatusKey {
   return "tracking";
 }
 
+const REGIONS = ["全部", "台灣", "美國", "歐盟", "新加坡", "國際"] as const;
+
 export function RegulatoryCountdown() {
+  const [regionFilter, setRegionFilter] = useState<string>("全部");
+
   const regs = useMemo(() =>
     REGULATIONS.map((r) => ({ ...r, derivedStatus: deriveStatus(r), daysLeft: calcDaysLeft(r.deadline) })),
     []
   );
 
+  const filtered = useMemo(() =>
+    regionFilter === "全部" ? regs : regs.filter((r) => r.region === regionFilter),
+    [regs, regionFilter]
+  );
+
   const counts = useMemo(() => ({
-    overdue:   regs.filter((r) => r.derivedStatus === "overdue").length,
-    urgent:    regs.filter((r) => r.derivedStatus === "urgent").length,
-    pending:   regs.filter((r) => r.derivedStatus === "pending").length,
-    tracking:  regs.filter((r) => r.derivedStatus === "tracking").length,
-    completed: regs.filter((r) => r.derivedStatus === "completed").length,
-  }), [regs]);
+    overdue:   filtered.filter((r) => r.derivedStatus === "overdue").length,
+    urgent:    filtered.filter((r) => r.derivedStatus === "urgent").length,
+    pending:   filtered.filter((r) => r.derivedStatus === "pending").length,
+    tracking:  filtered.filter((r) => r.derivedStatus === "tracking").length,
+    completed: filtered.filter((r) => r.derivedStatus === "completed").length,
+  }), [filtered]);
 
   return (
     <div className="space-y-8">
@@ -185,6 +194,23 @@ export function RegulatoryCountdown() {
         <div className="mt-2 text-xs text-muted-foreground">
           資料截至 2026-06 · 含 NIST FIPS / NSA CNSA 2.0 / EU DORA / MAS TRM / 金管會指引
         </div>
+      </div>
+
+      {/* Region Filter */}
+      <div className="flex flex-wrap gap-2">
+        {REGIONS.map((r) => (
+          <button
+            key={r}
+            onClick={() => setRegionFilter(r)}
+            className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+              regionFilter === r
+                ? "border-blue-600 bg-blue-600 text-white"
+                : "border-border bg-background text-muted-foreground hover:border-blue-400 hover:text-foreground"
+            }`}
+          >
+            {r}
+          </button>
+        ))}
       </div>
 
       {/* Summary Cards */}
@@ -216,7 +242,10 @@ export function RegulatoryCountdown() {
 
       {/* Regulation Cards */}
       <div className="space-y-4">
-        {regs.map((reg) => {
+        {filtered.length === 0 && (
+          <div className="py-10 text-center text-sm text-muted-foreground">此地區目前無法規資料</div>
+        )}
+        {filtered.map((reg) => {
           const st = STATUS_CONFIG[reg.derivedStatus];
           const Icon = st.icon;
           return (

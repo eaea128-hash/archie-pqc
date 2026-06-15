@@ -14,6 +14,8 @@ import { ExecutiveStoryboard } from "@/pages/ExecutiveStoryboard";
 import { MigrationPriority } from "@/pages/MigrationPriority";
 import { CryptoAgilityRoadmap } from "@/pages/CryptoAgilityRoadmap";
 import { RegulatoryCountdown } from "@/pages/RegulatoryCountdown";
+import { AlgorithmSunset } from "@/pages/AlgorithmSunset";
+import { CbomExport } from "@/pages/CbomExport";
 import "@/index.css";
 
 const router = createBrowserRouter([
@@ -33,6 +35,8 @@ const router = createBrowserRouter([
       { path: "migration", element: <MigrationPriority /> },
       { path: "crypto-agility", element: <CryptoAgilityRoadmap /> },
       { path: "regulatory", element: <RegulatoryCountdown /> },
+      { path: "sunset", element: <AlgorithmSunset /> },
+      { path: "cbom", element: <CbomExport /> },
     ]
   }
 ]);
