@@ -14,6 +14,8 @@ interface Regulation {
   scope: string;
   reference: string;
   status: "completed" | "overdue" | "urgent" | "pending" | "tracking";
+  dataAsOf: string;        // 資料蒐集日期 ISO
+  nextReviewDate: string;  // 建議複查日期 ISO
 }
 
 const REGULATIONS: Regulation[] = [
@@ -28,6 +30,8 @@ const REGULATIONS: Regulation[] = [
     scope: "全球適用（參考標準）",
     reference: "NIST IR 8413 / FIPS PUB 203/204/205",
     status: "completed",
+    dataAsOf: "2024-08-13",
+    nextReviewDate: "2025-08-01",
   },
   {
     id: "reg-tw-fsc-pqc",
@@ -40,6 +44,8 @@ const REGULATIONS: Regulation[] = [
     scope: "台灣受監理金融機構",
     reference: "金融資安行動方案 2.0 / 金管會 PQC 指引草案",
     status: "overdue",
+    dataAsOf: "2026-06-01",
+    nextReviewDate: "2026-09-01",
   },
   {
     id: "reg-tw-cybersec-3",
@@ -52,6 +58,8 @@ const REGULATIONS: Regulation[] = [
     scope: "台灣受監理金融機構",
     reference: "金融資安行動方案 3.0（預計 2026 公布）",
     status: "pending",
+    dataAsOf: "2026-06-01",
+    nextReviewDate: "2026-12-01",
   },
   {
     id: "reg-mas-trm",
@@ -64,6 +72,8 @@ const REGULATIONS: Regulation[] = [
     scope: "新加坡受監理金融機構（含跨境業務）",
     reference: "MAS TRM 2021 §9.1.5",
     status: "completed",
+    dataAsOf: "2023-01-01",
+    nextReviewDate: "2026-12-01",
   },
   {
     id: "reg-eu-dora",
@@ -76,6 +86,8 @@ const REGULATIONS: Regulation[] = [
     scope: "歐盟境內金融機構及跨境服務提供商",
     reference: "Regulation (EU) 2022/2554 DORA Art. 25",
     status: "completed",
+    dataAsOf: "2025-01-17",
+    nextReviewDate: "2027-01-01",
   },
   {
     id: "reg-nsa-cnsa-software",
@@ -88,6 +100,8 @@ const REGULATIONS: Regulation[] = [
     scope: "美國聯邦機構 / 國防工業供應鏈（參考基準）",
     reference: "NSA CNSA 2.0 Advisory (2022-09)",
     status: "overdue",
+    dataAsOf: "2022-09-07",
+    nextReviewDate: "2026-09-01",
   },
   {
     id: "reg-nsa-cnsa-network",
@@ -100,6 +114,8 @@ const REGULATIONS: Regulation[] = [
     scope: "美國聯邦機構（參考基準）",
     reference: "NSA CNSA 2.0 Advisory (2022-09)",
     status: "pending",
+    dataAsOf: "2022-09-07",
+    nextReviewDate: "2026-12-01",
   },
   {
     id: "reg-iso-18033-6",
@@ -112,6 +128,8 @@ const REGULATIONS: Regulation[] = [
     scope: "全球（ISO 成員國）",
     reference: "ISO/IEC 18033-6 DIS（草案）",
     status: "tracking",
+    dataAsOf: "2026-06-01",
+    nextReviewDate: "2026-12-01",
   },
   {
     id: "reg-nsa-cnsa-2030",
@@ -124,6 +142,8 @@ const REGULATIONS: Regulation[] = [
     scope: "美國聯邦機構 / 關鍵基礎設施（國際金融機構參考）",
     reference: "NSA CNSA 2.0 Advisory (2022-09) — 2030 deadline",
     status: "tracking",
+    dataAsOf: "2022-09-07",
+    nextReviewDate: "2027-01-01",
   },
 ];
 
@@ -294,6 +314,17 @@ export function RegulatoryCountdown() {
                 <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
                   <span><span className="font-medium">適用範圍：</span>{reg.scope}</span>
                   <span><span className="font-medium">法規來源：</span>{reg.reference}</span>
+                </div>
+
+                {/* Data Freshness */}
+                <div className="flex flex-wrap gap-3 border-t pt-2 text-xs">
+                  <span className="text-muted-foreground">
+                    📅 <span className="font-medium">資料截至：</span>{reg.dataAsOf}
+                  </span>
+                  <span className="text-muted-foreground">
+                    🔄 <span className="font-medium">建議複查：</span>{reg.nextReviewDate}
+                  </span>
+                  <span className="ml-auto italic text-muted-foreground/70">以官方公告為準</span>
                 </div>
               </CardContent>
             </Card>

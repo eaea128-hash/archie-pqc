@@ -231,12 +231,18 @@ export function MigrationPriority() {
                 <th className="pb-2 pr-4">緊迫度</th>
                 <th className="pb-2 pr-4">可行性</th>
                 <th className="pb-2 pr-4">主要理由</th>
-                <th className="pb-2">啟動季度</th>
+                <th className="pb-2 pr-4">啟動季度</th>
+                <th className="pb-2">2030 缺口</th>
               </tr>
             </thead>
             <tbody className="divide-y">
               {items.map((item) => {
                 const cfg = WAVE_CONFIG[item.wave];
+                const gap2030 =
+                  item.wave === "Wave 1" ? { label: "達標可期", cls: "bg-emerald-100 text-emerald-700" } :
+                  item.wave === "Wave 2" ? { label: "需解阻礙", cls: "bg-amber-100 text-amber-700" } :
+                  item.wave === "Wave 3" ? { label: "有缺口風險", cls: "bg-rose-100 text-rose-700" } :
+                                          { label: "持續觀察", cls: "bg-slate-100 text-slate-600" };
                 return (
                   <tr key={item.system.systemId} className="hover:bg-muted/30">
                     <td className="py-3 pr-4">
@@ -262,7 +268,12 @@ export function MigrationPriority() {
                     <td className="py-3 pr-4 max-w-[200px]">
                       <span className="text-xs leading-5 text-muted-foreground">{item.reason}</span>
                     </td>
-                    <td className="py-3 text-xs font-medium">{item.quarter}</td>
+                    <td className="py-3 pr-4 text-xs font-medium">{item.quarter}</td>
+                    <td className="py-3">
+                      <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${gap2030.cls}`}>
+                        {gap2030.label}
+                      </span>
+                    </td>
                   </tr>
                 );
               })}
