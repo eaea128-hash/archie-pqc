@@ -37,10 +37,9 @@ export function ExecutiveStoryboard() {
           <Lightbulb className="h-4 w-4" />
           Executive Storyboard
         </div>
-        <h2 className="mt-1 text-2xl font-semibold">銀行科技韌性治理 POC：一頁式主管說明</h2>
+        <h2 className="mt-1 text-2xl font-semibold">PQC 量子韌性治理平台</h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          本頁用一頁說清楚「為什麼現在要做、解決什麼管理痛點、平台如何運作、主管會看到什麼」。
-          適合用於主管簡報、概念驗證審查與跨部門溝通。
+          銀行科技韌性前期盤點平台 — 對齊金管會 2026-06-18「金融業後量子密碼遷移參考指引」七大策略方向
         </p>
       </div>
 
@@ -318,55 +317,6 @@ export function ExecutiveStoryboard() {
         </Card>
       </section>
 
-      {/* Positioning */}
-      <Card className="border-primary/30 bg-primary/5">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-primary">
-            <CheckCircle2 className="h-4 w-4" />
-            本平台定位說明（供展示時使用）
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-3 md:grid-cols-2">
-            <div>
-              <div className="mb-2 text-sm font-semibold text-foreground">本平台是</div>
-              <ul className="space-y-1.5">
-                {[
-                  "銀行科技韌性前期盤點平台（POC）",
-                  "新興科技風險治理 Intake",
-                  "可解釋、可追蹤、可稽核的治理資料流",
-                  "第一個場景：PQC / Quantum Readiness",
-                  "業務語言與技術要求的雙向轉譯機制",
-                  "跨部門責任歸屬與補件追蹤平台",
-                ].map((item) => (
-                  <li className="flex items-start gap-2 text-sm" key={item}>
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <div className="mb-2 text-sm font-semibold text-foreground">本平台不是</div>
-              <ul className="space-y-1.5">
-                {[
-                  "一般填報表單或一次性調查工具",
-                  "資安掃描器（不取代弱點掃描或 CBOM）",
-                  "CMDB、GRC 或 SIEM 的替代品",
-                  "正式的量化風險評估平台（需搭配資安覆核）",
-                  "多人協作或稽核系統（示範版，資料存本機）",
-                  "連接任何真實公司系統（所有資料均為虛構）",
-                ].map((item) => (
-                  <li className="flex items-start gap-2 text-sm" key={item}>
-                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
