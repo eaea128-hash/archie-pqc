@@ -93,6 +93,22 @@ const kindLabel: Record<LineageKind, string> = {
 
 const lineageItems: LineageItem[] = [
   {
+    lineageId: "LIN-Q-000",
+    kind: "question",
+    questionId: "Q-FSC-PQC-2026",
+    title: "金管會後量子密碼遷移參考指引（2026-06-18 正式版）",
+    questionText: "金融機構是否依金管會七大策略方向建立 PQC 治理架構、CBOM 清單、加密敏捷機制、供應鏈管理及遷移優先序？",
+    sourceType: "FSC 金管會金融資安韌性",
+    sourceName: "金融業後量子密碼遷移參考指引",
+    sourceReference: "金管會 2026-06-18 新聞稿 / 金融業後量子密碼遷移參考指引 PDF（資訊服務處）",
+    rationale: "金管會於 2026-06-18 正式發布七大策略方向，涵蓋：①PQC政策與治理 ②CBOM密碼技術清單 ③加密敏捷性 ④生態系協作 ⑤風險導向遷移優先序 ⑥採購與供應鏈管理 ⑦測試切換與營運韌性。本平台所有功能模組直接對應此七大策略，可作為金融機構自評與主管報告的依據。",
+    relatedRisk: "未依指引建立 PQC 治理架構，2027 前期審查缺乏書面依據",
+    version: "v1.0",
+    lastUpdated: "2026-06-18",
+    status: "active",
+    usedBy: ["Regulatory Timeline", "Migration Priority", "CBOM Export", "Vendor Readiness", "Crypto-Agility Roadmap", "Compliance Lineage", "Evidence Pack"],
+  },
+  {
     lineageId: "LIN-Q-001",
     kind: "question",
     questionId: "Q-CRYPTO-001",
