@@ -38,8 +38,8 @@ export function ExecutiveStoryboard() {
           Executive Storyboard
         </div>
         <h2 className="mt-1 text-2xl font-semibold">PQC 量子韌性治理平台</h2>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          銀行科技韌性前期盤點平台 — 對齊金管會 2026-06-18「金融業後量子密碼遷移參考指引」七大策略方向
+        <p className="mt-1 text-sm text-muted-foreground">
+          後量子密碼前期盤點治理工具 — 對齊金管會 2026-06-18 PQC 遷移參考指引七大策略方向
         </p>
       </div>
 
@@ -241,80 +241,31 @@ export function ExecutiveStoryboard() {
         </div>
       </section>
 
-      {/* Demo Walkthrough */}
+      {/* Demo Walkthrough — compact nav grid */}
       <section>
-        <SectionLabel icon={FileText} label="展示路線" color="indigo" />
-        <Card className="mt-3">
-          <CardContent className="pt-5">
-            <div className="space-y-3">
-              {[
-                {
-                  step: "1",
-                  page: "Dashboard",
-                  path: "/",
-                  title: "全行風險總覽",
-                  body: "管理摘要、防呆告警、HNDL 優先系統排行、供應商壓力排序、跨部門待辦分布",
-                },
-                {
-                  step: "2",
-                  page: "HNDL Analysis",
-                  path: "/hndl",
-                  title: "長期敏感資料高風險",
-                  body: "Harvest Now, Decrypt Later 風險解析，篩選高/中/低風險系統，Drawer 展開觸發規則明細",
-                },
-                {
-                  step: "3",
-                  page: "HNDL Analysis → Risk Explanation",
-                  path: "/hndl",
-                  title: "規則透明，不是黑箱判斷",
-                  body: "點開任一高風險系統，展開風險說明：每條規則都有編號、分數與政策來源，全部可追溯",
-                },
-                {
-                  step: "4",
-                  page: "Vendor Readiness",
-                  path: "/vendors",
-                  title: "供應商準備度可複用",
-                  body: "同一供應商服務多個系統，準備度回覆一次即可供其他系統引用，降低重複追問成本",
-                },
-                {
-                  step: "5",
-                  page: "Cross-functional Tasks",
-                  path: "/tasks",
-                  title: "跨部門待辦與雙向轉譯",
-                  body: "業務白話自動轉成資安、採購、供應商待辦；每筆任務顯示白話說明與技術說明，解決語言不通問題",
-                },
-                {
-                  step: "6",
-                  page: "Compliance Lineage",
-                  path: "/lineage",
-                  title: "政策來源與合規敏捷性",
-                  body: "點選政策變更模擬：新監理要求發布 → 掃描受影響系統 → 標示缺口 → 產生補件任務 → 更新報告",
-                },
-                {
-                  step: "7",
-                  page: "Evidence Pack",
-                  path: "/report",
-                  title: "盤點證據包作為會議與追蹤依據",
-                  body: "含 Snapshot、業務脈絡、風險依據、防呆告警、政策來源、待辦事項與已知限制，可匯出 JSON / CSV / Markdown / PDF",
-                },
-              ].map((item) => (
-                <div className="flex items-start gap-3 rounded-lg border bg-muted/20 p-3" key={item.step}>
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
-                    {item.step}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-semibold">{item.title}</span>
-                      <Badge variant="outline" className="font-mono text-xs">{item.page}</Badge>
-                    </div>
-                    <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.body}</p>
-                  </div>
-                  <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
-                </div>
-              ))}
+        <SectionLabel icon={FileText} label="功能模組導覽" color="indigo" />
+        <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            { step: "1", title: "全行風險總覽", path: "/", note: "KPI、告警、HNDL 排行" },
+            { step: "2", title: "HNDL（長期資料解密風險）分析", path: "/hndl", note: "觸發規則透明可追溯" },
+            { step: "3", title: "供應商準備度", path: "/vendors", note: "PQC 路線圖追蹤" },
+            { step: "4", title: "跨部門待辦", path: "/tasks", note: "業務語言雙向轉譯" },
+            { step: "5", title: "治理依據追溯", path: "/lineage", note: "政策應變模擬" },
+            { step: "6", title: "遷移優先序", path: "/migration", note: "Wave 計畫規劃" },
+            { step: "7", title: "盤點證據包", path: "/report", note: "匯出 JSON / PDF" },
+            { step: "8", title: "CBOM（密碼資產清單）匯出", path: "/cbom", note: "CycloneDX 1.6 格式" },
+          ].map((item) => (
+            <div key={item.step} className="flex items-start gap-2.5 rounded-lg border bg-background p-3">
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+                {item.step}
+              </div>
+              <div>
+                <div className="text-sm font-medium">{item.title}</div>
+                <div className="mt-0.5 text-xs text-muted-foreground">{item.note}</div>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+          ))}
+        </div>
       </section>
 
     </div>

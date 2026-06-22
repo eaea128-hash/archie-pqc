@@ -281,45 +281,45 @@ export function Dashboard() {
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             <MgmtItem
               label="本期最主要風險"
-              value={`${hndlHighRiskSystems} 個高 HNDL 系統，含永久保存與長期個資資料`}
-              action="→ 查看 HNDL Analysis"
+              value={`${hndlHighRiskSystems} 個 HNDL（長期資料解密風險）高風險系統，含永久保存與長期個資`}
+              action="HNDL 分析"
               href="/hndl"
               tone="danger"
             />
             <MgmtItem
               label="需要主管介入"
               value={guardrailAlerts.filter((a) => a.severity === "error").length > 0
-                ? `${guardrailAlerts.filter((a) => a.severity === "error").length} 個 Error 級防呆告警：重大系統尚未啟動盤點`
-                : "目前無 Error 級告警"}
-              action="→ 查看防呆告警"
+                ? `${guardrailAlerts.filter((a) => a.severity === "error").length} 個重大告警：關鍵系統尚未啟動盤點`
+                : "目前無重大告警"}
+              action="防呆告警"
               href="/"
               tone={guardrailAlerts.filter((a) => a.severity === "error").length > 0 ? "danger" : "ok"}
             />
             <MgmtItem
               label="供應商缺口"
-              value={`${vendorsWithoutRoadmap} 家供應商未提供 PQC 遷移計畫，影響遷移排程估算`}
-              action="→ 查看 Vendor Readiness"
+              value={`${vendorsWithoutRoadmap} 家供應商未提供 PQC 遷移計畫`}
+              action="供應商準備度"
               href="/vendors"
               tone="warn"
             />
             <MgmtItem
-              label="合規補件壓力"
-              value={`${guardrailAlerts.filter((a) => a.severity === "warning").length} 個 Warning 級待補件，含外部 API 串接未填、供應商追蹤期限將至`}
-              action="→ 查看防呆告警"
+              label="補件壓力"
+              value={`${guardrailAlerts.filter((a) => a.severity === "warning").length} 項待補件：外部 API 串接未填、供應商追蹤期限將至`}
+              action="防呆告警"
               href="/"
               tone="warn"
             />
             <MgmtItem
               label="跨部門待辦"
-              value={`共 ${tasks.filter((t) => t.status !== "completed").length} 件未完成，資安與採購各有高優先待辦`}
-              action="→ 查看 Cross-functional Tasks"
+              value={`${tasks.filter((t) => t.status !== "completed").length} 件未完成，資安與採購均有高優先項目`}
+              action="跨部門待辦"
               href="/tasks"
               tone="warn"
             />
             <MgmtItem
               label="建議下一步"
-              value="優先確認 HNDL 高風險系統的加密依存清單，並向未回覆供應商發出正式詢問函"
-              action="→ 查看 Evidence Pack"
+              value="優先確認 HNDL 高風險系統加密清單（CBOM：密碼資產清單），並向未回覆供應商發出正式詢問"
+              action="盤點證據包"
               href="/report"
               tone="ok"
             />
