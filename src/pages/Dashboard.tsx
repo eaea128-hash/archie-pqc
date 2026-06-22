@@ -176,6 +176,41 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
 
+      {/* ── 系統入口 Banner ────────────────────────────────────── */}
+      <section className="rounded-xl border bg-card p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">銀行科技韌性前期盤點平台</h1>
+            <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground leading-6">
+              協助金融機構在後量子密碼遷移前，快速盤點高風險系統、供應商準備度、長期資料保存風險與後續評估任務。
+            </p>
+          </div>
+          <a href="/pqc-intake" className="shrink-0">
+            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors">
+              <ArrowRight className="h-4 w-4" />
+              開始填寫系統風險盤點
+            </button>
+          </a>
+        </div>
+
+        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          {[
+            { step: "1", label: "系統與業務情境", desc: "基本資訊、業務重要性" },
+            { step: "2", label: "資料生命週期", desc: "保存年限、個資類型" },
+            { step: "3", label: "外部串接確認", desc: "API、批次、跨境" },
+            { step: "4", label: "密碼學資產線索", desc: "HTTPS、簽章、HSM" },
+            { step: "5", label: "供應商準備度", desc: "PQC 計畫、合約到期" },
+            { step: "6", label: "風險評級與報告", desc: "分數、觸發原因、任務" },
+          ].map(({ step, label, desc }) => (
+            <div key={step} className="rounded-lg border bg-muted/30 px-3 py-2.5 text-center">
+              <div className="text-xs font-bold text-primary mb-1">Step {step}</div>
+              <div className="text-xs font-semibold leading-4">{label}</div>
+              <div className="text-[10px] text-muted-foreground mt-0.5 leading-4">{desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── 今日盤點總覽 ─────────────────────────────────────── */}
       <section>
         <div className="mb-3 flex items-center justify-between">
