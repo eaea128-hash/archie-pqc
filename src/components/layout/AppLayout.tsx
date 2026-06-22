@@ -181,12 +181,12 @@ export function AppLayout() {
           </div>
           <GlobalSearch />
         </header>
-        <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
-          示範平台 — 所有資料均為<strong>模擬假資料</strong>，不代表任何真實機構之盤點結果。
-        </div>
         <main className="px-4 py-6 md:px-8">
           <Outlet />
         </main>
+        <div className="border-t bg-muted/30 px-4 py-2 text-center text-[11px] text-muted-foreground md:px-8">
+          Demo Notice：所有資料均為模擬假資料，不代表任何真實機構之盤點結果。
+        </div>
       </div>
     </div>
   );

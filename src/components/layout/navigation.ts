@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export const navigation = [
-  { title: "平台總覽", subtitle: "定位與展示路線", path: "/storyboard", icon: Lightbulb },
+  { title: "平台總覽", subtitle: "治理狀態", path: "/storyboard", icon: Lightbulb },
   { title: "全行風險總覽", subtitle: "主管儀表板", path: "/", icon: BarChart3 },
   { title: "PQC 前期盤點", subtitle: "系統與業務脈絡", path: "/pqc-intake", icon: ClipboardList },
   { title: "HNDL 長期資料風險", subtitle: "現在攔截、未來解密", path: "/hndl", icon: DatabaseZap },
