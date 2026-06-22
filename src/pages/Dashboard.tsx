@@ -177,69 +177,72 @@ export function Dashboard() {
     <div className="space-y-6">
 
       {/* ── 系統入口 Banner ────────────────────────────────────── */}
-      <section className="rounded-xl border bg-card p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">銀行科技韌性前期盤點平台</h1>
-            <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground leading-6">
-              協助金融機構在後量子密碼遷移前，快速盤點高風險系統、供應商準備度、長期資料保存風險與後續評估任務。
-            </p>
+      <section className="rounded-xl border bg-card overflow-hidden">
+        {/* 上半：價值陳述 */}
+        <div className="border-b bg-muted/30 px-6 py-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">銀行科技韌性前期盤點平台</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                填寫一份系統盤點表單，10 分鐘內取得：
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {["風險分數與評級", "觸發原因清單", "跨部門任務清單", "可匯出盤點報告"].map((item) => (
+                  <span key={item} className="inline-flex items-center gap-1 rounded-full border bg-background px-2.5 py-0.5 text-xs font-medium">
+                    <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <a href="/pqc-intake" className="shrink-0">
+              <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors whitespace-nowrap">
+                <ArrowRight className="h-4 w-4" />
+                開始填寫盤點表單
+              </button>
+            </a>
           </div>
-          <a href="/pqc-intake" className="shrink-0">
-            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors">
-              <ArrowRight className="h-4 w-4" />
-              開始填寫系統風險盤點
-            </button>
-          </a>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          {[
-            {
-              role: "主管 / PMO",
-              color: "border-blue-200 bg-blue-50/40 dark:border-blue-900 dark:bg-blue-950/20",
-              labelColor: "text-blue-700 dark:text-blue-400",
-              actions: [
-                { label: "查看全行風險總覽", href: "/" },
-                { label: "確認高風險系統清單", href: "/hndl" },
-                { label: "追蹤跨部門待辦進度", href: "/tasks" },
-              ],
-            },
-            {
-              role: "資安 / 架構",
-              color: "border-rose-200 bg-rose-50/40 dark:border-rose-900 dark:bg-rose-950/20",
-              labelColor: "text-rose-700 dark:text-rose-400",
-              actions: [
-                { label: "填寫系統盤點表單", href: "/pqc-intake" },
-                { label: "檢視治理依據追溯", href: "/lineage" },
-                { label: "匯出 CBOM 密碼資產線索", href: "/cbom" },
-              ],
-            },
-            {
-              role: "採購 / 系統 Owner",
-              color: "border-amber-200 bg-amber-50/40 dark:border-amber-900 dark:bg-amber-950/20",
-              labelColor: "text-amber-700 dark:text-amber-400",
-              actions: [
-                { label: "確認供應商 PQC 準備度", href: "/vendors" },
-                { label: "查看待補件任務", href: "/tasks" },
-                { label: "產出盤點證據包", href: "/report" },
-              ],
-            },
-          ].map(({ role, color, labelColor, actions }) => (
-            <div key={role} className={`rounded-lg border px-4 py-3 ${color}`}>
-              <div className={`mb-2 text-xs font-bold ${labelColor}`}>{role}</div>
-              <ul className="space-y-1.5">
-                {actions.map(({ label, href }) => (
-                  <li key={label}>
-                    <a href={href} className="flex items-center gap-1.5 text-xs text-foreground hover:text-primary transition-colors">
-                      <ArrowRight className="h-3 w-3 shrink-0 text-primary" />
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* 下半：情境入口 */}
+        <div className="px-6 py-4">
+          <div className="mb-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">你目前的狀況是？</div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {[
+              {
+                situation: "第一次使用，還沒有任何資料",
+                action: "從填寫盤點表單開始",
+                href: "/pqc-intake",
+                tone: "primary",
+              },
+              {
+                situation: "已有盤點資料，要查看風險結果",
+                action: "前往全行風險總覽",
+                href: "/",
+                tone: "default",
+              },
+              {
+                situation: "來看供應商或治理追蹤進度",
+                action: "前往平台總覽",
+                href: "/storyboard",
+                tone: "default",
+              },
+            ].map(({ situation, action, href, tone }) => (
+              <a
+                key={situation}
+                href={href}
+                className={`group flex flex-col gap-1.5 rounded-lg border px-4 py-3 transition-colors hover:border-primary/50 hover:bg-muted/40 ${
+                  tone === "primary" ? "border-primary/30 bg-primary/5" : "bg-background"
+                }`}
+              >
+                <div className="text-xs text-muted-foreground leading-5">{situation}</div>
+                <div className="flex items-center gap-1 text-xs font-semibold text-primary">
+                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                  {action}
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
