@@ -193,19 +193,51 @@ export function Dashboard() {
           </a>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {[
-            { step: "1", label: "系統與業務情境", desc: "基本資訊、業務重要性" },
-            { step: "2", label: "資料生命週期", desc: "保存年限、個資類型" },
-            { step: "3", label: "外部串接確認", desc: "API、批次、跨境" },
-            { step: "4", label: "密碼學資產線索", desc: "HTTPS、簽章、HSM" },
-            { step: "5", label: "供應商準備度", desc: "PQC 計畫、合約到期" },
-            { step: "6", label: "風險評級與報告", desc: "分數、觸發原因、任務" },
-          ].map(({ step, label, desc }) => (
-            <div key={step} className="rounded-lg border bg-muted/30 px-3 py-2.5 text-center">
-              <div className="text-xs font-bold text-primary mb-1">Step {step}</div>
-              <div className="text-xs font-semibold leading-4">{label}</div>
-              <div className="text-[10px] text-muted-foreground mt-0.5 leading-4">{desc}</div>
+            {
+              role: "主管 / PMO",
+              color: "border-blue-200 bg-blue-50/40 dark:border-blue-900 dark:bg-blue-950/20",
+              labelColor: "text-blue-700 dark:text-blue-400",
+              actions: [
+                { label: "查看全行風險總覽", href: "/" },
+                { label: "確認高風險系統清單", href: "/hndl" },
+                { label: "追蹤跨部門待辦進度", href: "/tasks" },
+              ],
+            },
+            {
+              role: "資安 / 架構",
+              color: "border-rose-200 bg-rose-50/40 dark:border-rose-900 dark:bg-rose-950/20",
+              labelColor: "text-rose-700 dark:text-rose-400",
+              actions: [
+                { label: "填寫系統盤點表單", href: "/pqc-intake" },
+                { label: "檢視治理依據追溯", href: "/lineage" },
+                { label: "匯出 CBOM 密碼資產線索", href: "/cbom" },
+              ],
+            },
+            {
+              role: "採購 / 系統 Owner",
+              color: "border-amber-200 bg-amber-50/40 dark:border-amber-900 dark:bg-amber-950/20",
+              labelColor: "text-amber-700 dark:text-amber-400",
+              actions: [
+                { label: "確認供應商 PQC 準備度", href: "/vendors" },
+                { label: "查看待補件任務", href: "/tasks" },
+                { label: "產出盤點證據包", href: "/report" },
+              ],
+            },
+          ].map(({ role, color, labelColor, actions }) => (
+            <div key={role} className={`rounded-lg border px-4 py-3 ${color}`}>
+              <div className={`mb-2 text-xs font-bold ${labelColor}`}>{role}</div>
+              <ul className="space-y-1.5">
+                {actions.map(({ label, href }) => (
+                  <li key={label}>
+                    <a href={href} className="flex items-center gap-1.5 text-xs text-foreground hover:text-primary transition-colors">
+                      <ArrowRight className="h-3 w-3 shrink-0 text-primary" />
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
