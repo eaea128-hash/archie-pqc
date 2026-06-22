@@ -27,27 +27,27 @@ import { cn } from "@/lib/utils";
 
 const GOVERNANCE_BASIS: Record<string, { label: string; ref: string; source: string }> = {
   hndl: {
-    label: "CISA Quantum Readiness",
+    label: "CISA Quantum Readiness（量子準備）",
     ref: "HNDL Threat Prioritization 2023",
     source: "長期敏感資料優先納入 PQC 遷移",
   },
   crypto: {
-    label: "NIST SP 800-131A Rev.3",
+    label: "NIST SP 800-131A Rev.3（密碼演算法轉換）",
     ref: "Transitioning Cryptographic Algorithms",
     source: "舊型加密協定須限期汰換",
   },
   vendor: {
-    label: "FSC 科技外包治理",
+    label: "FSC 科技外包治理（供應商韌性）",
     ref: "Technology Outsourcing Governance §5.3",
     source: "供應商須提供加密升級責任聲明",
   },
   external: {
-    label: "FSC 金融資安韌性",
+    label: "FSC 金融資安韌性（PQC 檢核方向）",
     ref: "金管會 2026-06-18 PQC 遷移參考指引",
     source: "外部 API 串接點須逐一盤點加密協定",
   },
   criticality: {
-    label: "NSA CNSA 2.0",
+    label: "NSA CNSA 2.0（演算法套件遷移）",
     ref: "Commercial National Security Algorithm Suite 2.0",
     source: "關鍵業務系統為 PQC 遷移最高優先對象",
   },
@@ -83,9 +83,9 @@ interface EvidenceRow {
 
 const RISK_TYPE_LABEL: Record<string, string> = {
   hndl: "HNDL（長期資料解密風險）",
-  crypto: "加密協定缺口",
+  crypto: "Crypto（加密協定缺口）",
   vendor: "供應商準備度缺口",
-  external: "外部 API 風險",
+  external: "API（外部串接風險）",
   criticality: "關鍵業務系統",
 };
 
@@ -200,11 +200,11 @@ export function ComplianceLineage() {
       <div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <GitBranch className="h-4 w-4" />
-          治理依據追溯
+          Evidence Lineage
         </div>
         <h2 className="mt-1 text-2xl font-semibold">治理依據追溯</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          各系統風險判定的觸發原因、對齊的治理檢核方向與負責單位，點擊查看完整證據鏈。
+          各系統風險判定的觸發原因、檢核依據與負責單位，點擊查看完整證據鏈。
         </p>
       </div>
 
@@ -316,7 +316,7 @@ export function ComplianceLineage() {
           className="flex items-center gap-1.5 text-sm font-medium text-primary"
         >
           <Sparkles className="h-4 w-4" />
-          政策應變模擬 — 新增跨機構 API 串接點明細要求
+          檢核方向變更模擬 — 新增跨機構 API 串接點明細要求
           <span className="ml-1 text-xs text-muted-foreground">({showDemo ? "收起" : "展開"})</span>
         </button>
       </div>
@@ -408,14 +408,14 @@ function EvidenceDrawer({ row, onClose }: { row: EvidenceRow; onClose: () => voi
 
           {/* Governance basis */}
           <section>
-            <SectionTitle icon={BookOpen}>治理依據</SectionTitle>
+            <SectionTitle icon={BookOpen}>檢核依據</SectionTitle>
             <div className="mt-2 rounded-lg border bg-blue-50 p-3 text-sm">
               <div className="font-semibold text-blue-800">{basis.label}</div>
               <div className="mt-0.5 font-mono text-xs text-blue-600">{basis.ref}</div>
               <p className="mt-1 text-xs text-blue-700">{basis.source}</p>
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
-              本平台對齊相關趨勢與檢核方向，不宣稱正式符合任何法規標準。
+              本平台對齊相關趨勢與檢核方向；正式合規結論仍需由法遵與資安覆核。
             </p>
           </section>
 
@@ -511,10 +511,10 @@ function PolicyChangeDemo({
           <div>
             <CardTitle className="flex items-center gap-2 text-sm">
               <Sparkles className="h-4 w-4 text-amber-600" />
-              政策應變模擬：FSC 草案 Q-API-002 — 跨機構 API 串接點明細要求
+              檢核方向變更：跨機構 API 串接點明細要求
             </CardTitle>
             <CardDescription className="mt-0.5 text-xs">
-              模擬新監理要求生效後 4 步驟完成影響評估、缺口標示、任務產生與報告更新
+              模擬檢核方向更新後，快速找出受影響系統、缺口、補件任務與報告欄位
             </CardDescription>
           </div>
           <Button
@@ -553,7 +553,7 @@ function PolicyChangeDemo({
         {/* Phase content */}
         {phase === "impact" && (
           <p className="text-xs text-muted-foreground">
-            FSC 草案要求逐一列出 <code className="rounded bg-muted px-1">hasExternalApi = true</code> 的系統串接明細（外部對象、資料類型、TLS 版本、憑證種類）。掃描完成：{affectedCount} 個系統受影響，{gaps.length} 個需補件。
+            新增檢核方向要求逐一列出 <code className="rounded bg-muted px-1">hasExternalApi = true</code> 的系統串接明細（外部對象、資料類型、TLS 版本、憑證種類）。掃描完成：{affectedCount} 個系統受影響，{gaps.length} 個需補件。
           </p>
         )}
         {phase === "gaps" && (

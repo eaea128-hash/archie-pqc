@@ -10,8 +10,11 @@ import {
   GitBranch,
   Globe2,
   ShieldAlert,
+  ShieldCheck,
   ShoppingCart,
   TrendingUp,
+  Users,
+  Wrench,
 } from "lucide-react";
 import {
   Bar,
@@ -46,7 +49,7 @@ import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
 import { RuleExplanationPanel } from "@/components/RuleExplanationPanel";
 import { RiskExplanationPanel as SystemRiskExplanationPanel } from "@/components/common/RiskExplanationPanel";
-import { explainRiskForSystem } from "@/lib/risk-rules";
+import { evaluateRules, explainRiskForSystem } from "@/lib/risk-rules";
 
 function MgmtItem({ label, value, action, tone }: { label: string; value: string; action: string; href?: string; tone: "danger" | "warn" | "ok" }) {
   const toneColor = tone === "danger" ? "text-rose-600" : tone === "warn" ? "text-amber-600" : "text-emerald-700";
@@ -83,6 +86,14 @@ export function Dashboard() {
   const externalApiSystems = systems.filter((system) => system.hasExternalApi).length;
   const pendingSecurityTasks = tasks.filter((task) => task.assignedRole === "資安" && task.status !== "completed").length;
   const pendingProcurementTasks = tasks.filter((task) => task.assignedRole === "採購" && task.status !== "completed").length;
+  const pendingArchTasks = tasks.filter((task) => task.assignedRole === "架構" && task.status !== "completed").length;
+
+  // 高風險：由規則引擎判定為 critical 或 high 的系統
+  const highRiskByRules = systems.filter((sys) => {
+    const vendor = sys.vendorId ? vendorById.get(sys.vendorId) ?? null : null;
+    const { riskLevel } = evaluateRules(sys, vendor);
+    return riskLevel === "critical" || riskLevel === "high";
+  }).length;
 
   const hndlRanking = [...hndlAssessments]
     .sort((a, b) => {
@@ -164,44 +175,70 @@ export function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <Card className="border-primary/20">
-        <CardContent className="pt-5">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                PQC 量子韌性治理平台
-              </div>
-              <h1 className="mt-2 text-2xl font-semibold leading-tight">
-                前期盤點總覽
-              </h1>
-              <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                <span><span className="font-medium text-foreground">風險可視化</span> — 系統與供應商優先排序</span>
-                <span><span className="font-medium text-foreground">風險可解釋</span> — 每筆判定均有規則依據</span>
-                <span><span className="font-medium text-foreground">責任追蹤</span> — 跨部門待辦與稽核匯出</span>
-              </div>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-3 xl:w-[520px]">
-              <SignalCard icon={FileSearch} title="標準化盤點" value={`${systems.length} 系統`} />
-              <SignalCard icon={GitBranch} title="可追溯依據" value={`${complianceLineage.length} 條合規軌跡`} />
-              <SignalCard icon={ShieldAlert} title="跨部門待辦" value={`${tasks.length} 件`} />
-            </div>
+
+      {/* ── 今日盤點總覽 ─────────────────────────────────────── */}
+      <section>
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold">今日盤點總覽</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              依規則引擎即時計算 — 點擊各指標前往對應模組
+            </p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="text-xs text-muted-foreground">
+            共 <span className="font-semibold text-foreground">{systems.length}</span> 個系統 ·{" "}
+            <span className="font-semibold text-foreground">{vendors.length}</span> 家供應商
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+          <OverviewCard
+            icon={CheckCircle2}
+            label="已盤點系統"
+            value={systems.length}
+            description="已完成前期資料填寫，納入風險評估範圍。"
+            tone="info"
+          />
+          <OverviewCard
+            icon={ShieldAlert}
+            label="高風險系統"
+            value={highRiskByRules}
+            description="涉及長期資料保存、外部介接或供應商準備度不足，由規則引擎判定。"
+            tone="danger"
+          />
+          <OverviewCard
+            icon={ShieldCheck}
+            label="供應商無 PQC 計畫"
+            value={vendorsWithoutRoadmap}
+            description="供應商尚未提交後量子密碼遷移路線圖，影響系統遷移排程。"
+            tone="danger"
+          />
+          <OverviewCard
+            icon={Clock}
+            label="資料保存超過 10 年"
+            value={longRetentionSystems}
+            description="資料生命週期超過量子威脅時間窗（2030–2035），需優先評估 HNDL 風險。"
+            tone="warn"
+          />
+          <OverviewCard
+            icon={Users}
+            label="待資安複核"
+            value={pendingSecurityTasks}
+            description="尚待資安團隊確認風險評估結果或補件資訊。"
+            tone="warn"
+          />
+          <OverviewCard
+            icon={Wrench}
+            label="待架構評估"
+            value={pendingArchTasks}
+            description="需架構師確認密碼模組清單（CBOM）與遷移可行性。"
+            tone="neutral"
+          />
+        </div>
+      </section>
 
       <GuardrailPanel alerts={guardrailAlerts} defaultOpen={guardrailAlerts.some(a => a.severity === "error")} />
       <DataQualityIssues alerts={guardrailAlerts} />
-
-      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <MetricCard icon={Building2} label="待完成盤點系統" value={pendingSystems} helper={`總計 ${systems.length} 個示範系統`} tone="default" />
-        <MetricCard icon={CheckCircle2} label="已完成盤點系統" value={completedSystems} helper="已建立前期盤點紀錄" tone="success" />
-        <MetricCard icon={DatabaseZap} label="高 HNDL 風險系統" value={hndlHighRiskSystems} helper="HNDL 分數 >= 80" tone="danger" />
-        <MetricCard icon={Clock} label="保存超過 10 年" value={longRetentionSystems} helper="資料生命週期優先檢視" tone="danger" />
-        <MetricCard icon={ShieldAlert} label="未提供 PQC 遷移計畫" value={vendorsWithoutRoadmap} helper="供應商待追蹤" tone="warn" />
-        <MetricCard icon={Globe2} label="外部 API 系統" value={externalApiSystems} helper="跨機構或供應商介接" tone="warn" />
-        <MetricCard icon={AlertTriangle} label="資安待辦" value={pendingSecurityTasks} helper="指派角色：資安" tone="warn" />
-        <MetricCard icon={ShoppingCart} label="採購待辦" value={pendingProcurementTasks} helper="指派角色：採購" tone="warn" />
-      </section>
 
       {/* 2030 PQC Target Progress */}
       <Card className="border-rose-200 bg-rose-50/30 dark:border-rose-900 dark:bg-rose-950/10">
@@ -485,14 +522,39 @@ export function Dashboard() {
   );
 }
 
-function SignalCard({ icon: Icon, title, value }: { icon: React.ComponentType<{ className?: string }>; title: string; value: string }) {
+type OverviewTone = "danger" | "warn" | "info" | "neutral";
+
+const overviewToneMap: Record<OverviewTone, {
+  border: string; numColor: string; iconBg: string; iconColor: string;
+}> = {
+  danger:  { border: "border-l-rose-500",   numColor: "text-rose-600",   iconBg: "bg-rose-50",   iconColor: "text-rose-500" },
+  warn:    { border: "border-l-amber-400",   numColor: "text-amber-600",  iconBg: "bg-amber-50",  iconColor: "text-amber-500" },
+  info:    { border: "border-l-blue-400",    numColor: "text-blue-600",   iconBg: "bg-blue-50",   iconColor: "text-blue-500" },
+  neutral: { border: "border-l-slate-400",   numColor: "text-slate-700",  iconBg: "bg-slate-100", iconColor: "text-slate-500" },
+};
+
+function OverviewCard({
+  icon: Icon, label, value, description, tone,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: number;
+  description: string;
+  tone: OverviewTone;
+}) {
+  const t = overviewToneMap[tone];
   return (
-    <div className="rounded-lg border bg-muted/20 p-3">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <Icon className="h-3.5 w-3.5" />
-        {title}
+    <div className={`rounded-xl border-l-4 bg-background p-4 shadow-sm ${t.border}`}>
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0 flex-1">
+          <div className="text-xs font-medium text-muted-foreground">{label}</div>
+          <div className={`mt-1 text-3xl font-bold tabular-nums leading-none ${t.numColor}`}>{value}</div>
+        </div>
+        <div className={`rounded-lg p-2 ${t.iconBg}`}>
+          <Icon className={`h-5 w-5 ${t.iconColor}`} />
+        </div>
       </div>
-      <div className="mt-1 text-sm font-semibold">{value}</div>
+      <p className="mt-3 text-xs leading-5 text-muted-foreground">{description}</p>
     </div>
   );
 }
