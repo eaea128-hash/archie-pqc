@@ -169,22 +169,16 @@ export function Dashboard() {
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <div>
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Bank Resilience Intake Platform / PQC 前期盤點
+                PQC 量子韌性治理平台
               </div>
               <h1 className="mt-2 text-2xl font-semibold leading-tight">
-                Bank Resilience Intake Platform
+                前期盤點總覽
               </h1>
-              <p className="mt-1 text-base font-medium text-foreground">
-                將新興科技風險的分散填報，轉成跨部門可查閱、可追蹤、可稽核的治理資料流
-              </p>
               <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                <span><span className="font-medium text-foreground">風險可視化</span> — 優先檢視哪些系統、哪些供應商</span>
-                <span><span className="font-medium text-foreground">風險可解釋</span> — 每筆風險判定均有明確規則依據，避免黑箱推論</span>
-                <span><span className="font-medium text-foreground">證據與責任追蹤</span> — 跨部門待辦、補件紀錄、可供稽核的匯出</span>
+                <span><span className="font-medium text-foreground">風險可視化</span> — 系統與供應商優先排序</span>
+                <span><span className="font-medium text-foreground">風險可解釋</span> — 每筆判定均有規則依據</span>
+                <span><span className="font-medium text-foreground">責任追蹤</span> — 跨部門待辦與稽核匯出</span>
               </div>
-              <p className="mt-2 max-w-3xl text-xs leading-5 text-muted-foreground">
-                不取代 CMDB、GRC、SIEM、CBOM 或弱點掃描。本平台協助銀行於前期盤點階段，將業務填答、系統標籤、供應商回覆與政策依據彙整為資安與法遵團隊可用的治理資料。所有示範資料均為虛構。
-              </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-3 xl:w-[520px]">
               <SignalCard icon={FileSearch} title="標準化盤點" value={`${systems.length} 系統`} />

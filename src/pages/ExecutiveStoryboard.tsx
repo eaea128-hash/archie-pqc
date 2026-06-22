@@ -45,7 +45,7 @@ export function ExecutiveStoryboard() {
 
       {/* Why Now */}
       <section>
-        <SectionLabel icon={Zap} label="Why Now" sublabel="為什麼現在要做" color="rose" />
+        <SectionLabel icon={Zap} label="為何現在啟動" color="rose" />
         <div className="mt-3 grid gap-3 md:grid-cols-3">
           <WhyNowCard
             title="FSC 金融資安韌性發展藍圖"
@@ -70,7 +70,7 @@ export function ExecutiveStoryboard() {
 
       {/* What We Solve */}
       <section>
-        <SectionLabel icon={AlertTriangle} label="What We Solve" sublabel="解決什麼管理痛點" color="amber" />
+        <SectionLabel icon={AlertTriangle} label="管理痛點" color="amber" />
         <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {[
             {
@@ -117,7 +117,7 @@ export function ExecutiveStoryboard() {
 
       {/* How It Works */}
       <section>
-        <SectionLabel icon={ArrowRight} label="How It Works" sublabel="平台如何運作" color="blue" />
+        <SectionLabel icon={ArrowRight} label="平台運作流程" color="blue" />
         <div className="mt-3">
           <div className="grid gap-2 md:grid-cols-6">
             {[
@@ -188,14 +188,14 @@ export function ExecutiveStoryboard() {
 
       {/* What Leaders See */}
       <section>
-        <SectionLabel icon={BadgeCheck} label="What Leaders See" sublabel="主管看到什麼" color="emerald" />
+        <SectionLabel icon={BadgeCheck} label="主管視角" color="emerald" />
         <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           <LeaderCard
             icon={DatabaseZap}
             title="高風險系統清單"
             metric={hndlHigh}
             metricLabel="個 HNDL 高風險系統（示範資料）"
-            body="不只是數字，每個系統都顯示為什麼被判定高風險、觸發了哪條規則、需要哪個部門處理。"
+            body="每個系統均標示觸發規則、風險原因與負責部門，非單純數字揭示。"
             tone="danger"
           />
           <LeaderCard
@@ -211,7 +211,7 @@ export function ExecutiveStoryboard() {
             title="供應商準備度缺口"
             metric={vendorGap}
             metricLabel="個供應商尚未提供 PQC 遷移計畫"
-            body="供應商科技韌性是銀行 PQC 遷移的關鍵瓶頸。本平台顯示每個供應商的準備狀態與追蹤壓力。"
+            body="供應商 PQC 準備狀態是遷移關鍵瓶頸，需逐一追蹤路線圖回覆進度。"
             tone="warn"
           />
           <LeaderCard
@@ -227,7 +227,7 @@ export function ExecutiveStoryboard() {
             title="政策變更影響"
             metric={policyImpactSystems}
             metricLabel="個系統涉及外部 API 或跨機構交換"
-            body="當監理要求新增跨機構 API 串接點明細，平台可找出受影響系統、缺漏欄位、負責角色與報告缺口。"
+            body="監理要求更新時，可快速找出受影響系統、缺漏欄位與負責角色。"
             tone="warn"
           />
           <LeaderCard
@@ -235,7 +235,7 @@ export function ExecutiveStoryboard() {
             title="合規補件壓力"
             metric={systems.filter((s) => s.status !== "completed").length}
             metricLabel="個系統尚未完成盤點"
-            body="政策來源可追溯，政策更新後平台自動掃描受影響系統，產生補件任務並指派負責角色。"
+            body="政策更新後可掃描缺口、產生補件任務並指派角色。"
             tone="default"
           />
         </div>
@@ -243,7 +243,7 @@ export function ExecutiveStoryboard() {
 
       {/* Demo Walkthrough */}
       <section>
-        <SectionLabel icon={FileText} label="Demo Walkthrough" sublabel="主管展示路線" color="indigo" />
+        <SectionLabel icon={FileText} label="展示路線" color="indigo" />
         <Card className="mt-3">
           <CardContent className="pt-5">
             <div className="space-y-3">
@@ -324,12 +324,10 @@ export function ExecutiveStoryboard() {
 function SectionLabel({
   icon: Icon,
   label,
-  sublabel,
   color,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  sublabel: string;
   color: "rose" | "amber" | "blue" | "emerald" | "indigo";
 }) {
   const colorMap = {
@@ -343,7 +341,6 @@ function SectionLabel({
     <div className={cn("inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm font-semibold", colorMap[color])}>
       <Icon className="h-4 w-4" />
       {label}
-      <span className="font-normal opacity-75">— {sublabel}</span>
     </div>
   );
 }
